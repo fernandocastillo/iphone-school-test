@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Event;
 use App\Events\CommentWritten;
 use App\Listeners\CommentWrittenListener;
 
+use App\Events\LessonWatched;
+use App\Listeners\LessonWatchedListener;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -23,7 +26,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         CommentWritten::class => [
             CommentWrittenListener::class
-        ]
+        ],
+        LessonWatched::class => [
+            LessonWatchedListener::class
+        ],
     ];
 
     /**

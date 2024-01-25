@@ -25,7 +25,7 @@ class B_CommentWrittenTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    private function triggerListener($comment){
+    private function triggerListener(Comment $comment){
         $event = new CommentWritten($comment, $this->user);     
         (new CommentWrittenListener())->handle($event);
     }
