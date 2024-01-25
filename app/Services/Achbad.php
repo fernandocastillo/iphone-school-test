@@ -51,7 +51,7 @@ class Achbad {
 
     private static function text($value, $singular, $plural, $fillAtTheEnd){
         $separator = ' ';
-        $txt = $value . $separator;
+        $txt = ($value == 1 ? 'First' : $value ) . $separator;
         if($value<=1) $txt .= $singular . $separator;
         if($value>1) $txt .= $plural . $separator;
         return $txt . $fillAtTheEnd;

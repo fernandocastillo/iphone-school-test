@@ -44,7 +44,7 @@ class AchivementsAndBadgesClassTest extends TestCase
     public function test_stringify(): void
     {
         $text = Achbad::stringify(1,'Piece', 'Pieces','bought');
-        $this->assertSame('1 Piece bought', $text);
+        $this->assertSame('First Piece bought', $text);
 
         $text = Achbad::stringify(2,'Piece', 'Pieces','bought');
         $this->assertSame('2 Pieces bought', $text);
