@@ -8,10 +8,22 @@ return [
     ],
 
     'badges' => [
-        [0  => 'Beginner'],
-        [4  => 'Intermediate'],
-        [8  => 'Advanced'],
-        [10 => 'Master'],
+        [
+            'count' =>  0,
+            'name'  =>  'Beginner'
+        ],
+        [
+            'count' =>  4,
+            'name'  =>  'Intermediate'
+        ],
+        [
+            'count' =>  8,
+            'name'  =>  'Advanced'
+        ],
+        [
+            'count' =>  10,
+            'name'  =>  'Master'
+        ],        
     ]
 
 ];

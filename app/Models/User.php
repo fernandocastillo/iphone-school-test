@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Services\Achbad;
 
 class User extends Authenticatable
 {
@@ -65,6 +66,14 @@ class User extends Authenticatable
     public function watched()
     {
         return $this->belongsToMany(Lesson::class)->wherePivot('watched', true);
+    }
+
+    public function commentAchivements(){
+        return Achbad::calculate(config('iphoneschool.achivements.comments'), $this->comments()->count());
+    }
+
+    public function lessonAchivements(){
+        return Achbad::calculate(config('iphoneschool.achivements.lessons'), $this->lessons()->distinct('id')->wherePivot('watched',true)->count());
     }
 }
 

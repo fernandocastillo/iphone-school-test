@@ -13,6 +13,9 @@ use App\Listeners\CommentWrittenListener;
 use App\Events\LessonWatched;
 use App\Listeners\LessonWatchedListener;
 
+use App\Events\AchivementUnlocked;
+use App\Listeners\AchivementUnlockedListener;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -29,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         LessonWatched::class => [
             LessonWatchedListener::class
+        ],
+        AchivementUnlocked::class => [
+            AchivementUnlockedListener::class
         ],
     ];
 

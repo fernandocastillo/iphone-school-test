@@ -23,7 +23,7 @@ class LessonWatchedListener
      */
     public function handle(LessonWatched $event): void
     {
-        list($exact, $current, $before, $after, $remainToNext)  = Achbad::calculate(config('iphoneschool.achivements.lessons'), $event->user->lessons()->distinct('id')->wherePivot('watched',true)->count());
+        list($exact, $current, $before, $after, $remainToNext)  = $event->user->lessonAchivements();
         if($exact){
             $name = Achbad::stringify($exact, 'Lesson', 'Lessons','Watched');
             AchivementUnlocked::dispatch($name, $event->user);            

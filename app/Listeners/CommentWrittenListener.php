@@ -25,7 +25,7 @@ class CommentWrittenListener
     public function handle(CommentWritten $event): void
     {
         
-        list($exact, $current, $before, $after, $remainToNext)  = Achbad::calculate(config('iphoneschool.achivements.comments'), $event->user->comments()->count());
+        list($exact, $current, $before, $after, $remainToNext)  = $event->user->commentAchivements();
         
         if($exact){
             $name = Achbad::stringify($exact, 'Comment', 'Comments','Written');
