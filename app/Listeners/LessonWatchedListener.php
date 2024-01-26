@@ -25,7 +25,8 @@ class LessonWatchedListener
     {
         list($exact, $current, $before, $after, $remainToNext)  = $event->user->lessonAchivements();
         if($exact){
-            $name = Achbad::stringify($exact, 'Lesson', 'Lessons','Watched');
+            $helperText = config('iphoneschool.stringify.lessons');
+            $name = Achbad::stringify($exact, $helperText['singular'], $helperText['plural'],$helperText['action']);            
             AchivementUnlocked::dispatch($name, $event->user);            
         }
     }

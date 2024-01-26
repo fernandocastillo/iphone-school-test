@@ -24,6 +24,19 @@ return [
             'count' =>  10,
             'name'  =>  'Master'
         ],        
+    ],
+
+    'stringify' => [
+        'comments' =>   [
+            'singular'  =>'Comment', 
+            'plural'    =>'Comments',
+            'action'    =>'Written'
+        ],
+        'lessons' =>   [
+            'singular'  =>'Lesson', 
+            'plural'    =>'Lessons',
+            'action'    =>'Watched'
+        ]
     ]
 
 ];

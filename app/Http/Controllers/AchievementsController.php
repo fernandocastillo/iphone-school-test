@@ -9,12 +9,14 @@ class AchievementsController extends Controller
 {
     public function index(User $user)
     {
+        list(,$currentBadge, $nextBadge, $nextAvailableAchivements, $remaining, $unlockedAchivements) = $user->calculate();
+        //dd($unlockedAchivements);
         return response()->json([
-            'unlocked_achievements' => [],
-            'next_available_achievements' => [],
-            'current_badge' => '',
-            'next_badge' => '',
-            'remaing_to_unlock_next_badge' => 0
+            'unlocked_achievements' => $unlockedAchivements,
+            'next_available_achievements' => $nextAvailableAchivements,
+            'current_badge' => $currentBadge,
+            'next_badge' => $nextBadge,
+            'remaining_to_unlock_next_badge' => $remaining
         ]);
     }
 }

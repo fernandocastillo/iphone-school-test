@@ -75,5 +75,62 @@ class User extends Authenticatable
     public function lessonAchivements(){
         return Achbad::calculate(config('iphoneschool.achivements.lessons'), $this->lessons()->distinct('id')->wherePivot('watched',true)->count());
     }
+
+    public function calculate(){
+        list($exactComments,$currentComments, $beforeComments, $nextComments)  = $this->commentAchivements();
+        list($exactLessons,$currentLessons, $beforeLessons, $nextLessons)  = $this->lessonAchivements();
+
+        $total = count($beforeComments) + count($beforeLessons) + ( $exactComments ? 1 : 0) + ( $exactLessons ? 1 : 0);
+
+        $badge = collect(config('iphoneschool.badges'))->last(function($item) use($total){
+            return $item['count'] <= $total;
+        });
+
+        $nextBadge = collect(config('iphoneschool.badges'))->first(function($item) use($total){
+            return $item['count'] > $total;
+        });
+
+        $nextAvailableAchivements = [];
+        $helperTextLessons = config('iphoneschool.stringify.lessons');
+        $helperTextComments = config('iphoneschool.stringify.comments');
+
+        if(count($nextLessons)>0){            
+            $nextLesson = Achbad::stringify($nextLessons[0], $helperTextLessons['singular'], $helperTextLessons['plural'],$helperTextLessons['action']);
+            $nextAvailableAchivements[] = $nextLesson;
+        }
+
+        if(count($nextComments)>0){            
+            $nextComment = Achbad::stringify($nextComments[0], $helperTextComments['singular'], $helperTextComments['plural'],$helperTextComments['action']);
+            $nextAvailableAchivements[] = $nextComment;
+        }
+
+        $remainingNextBadge = 0;
+        if($nextBadge){
+            $remainingNextBadge = $nextBadge['count'] - $total;
+        }
+
+        $unlockedComments = collect([...$beforeComments, $exactComments])->map(function($item) use($helperTextComments){
+            return Achbad::stringify($item, $helperTextComments['singular'], $helperTextComments['plural'],$helperTextComments['action']);
+        })->toArray();
+
+        if(!count($beforeComments) && !$exactComments) $unlockedComments=[];
+
+        $unlockedLessons = collect([...$beforeLessons, $exactLessons])->map(function($item) use($helperTextLessons){
+            return Achbad::stringify($item, $helperTextLessons['singular'], $helperTextLessons['plural'],$helperTextLessons['action']);
+        })->toArray();
+
+        if(!count($beforeLessons) && !$exactLessons) $unlockedLessons=[];
+
+        return [
+            $total,
+            $badge ? $badge['name'] : null,
+            $nextBadge ? $nextBadge['name'] : null,
+            $nextAvailableAchivements,
+            $remainingNextBadge,
+            array_merge($unlockedLessons, $unlockedComments)
+        ];
+    }
+
+    
 }
 

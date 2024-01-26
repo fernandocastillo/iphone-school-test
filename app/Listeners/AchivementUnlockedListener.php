@@ -21,11 +21,8 @@ class AchivementUnlockedListener
      * Handle the event.
      */
     public function handle(AchivementUnlocked $event): void
-    {
-        list($exactComments,, $beforeComments)  = $event->user->commentAchivements();
-        list($exactLessons,, $beforeLessons)  = $event->user->lessonAchivements();
-
-        $total = count($beforeComments) + count($beforeLessons) + ( $exactComments ? 1 : 0) + ( $exactLessons ? 1 : 0);
+    {        
+        list($total) = $event->user->calculate();
         $badge = collect(config('iphoneschool.badges'))->first(function($item) use($total){
             return $item['count'] == $total;
         });
@@ -33,7 +30,5 @@ class AchivementUnlockedListener
         if($badge){
             BadgeUnlocked::dispatch($badge['name'],$event->user);
         }
-
-
     }
 }

@@ -28,7 +28,8 @@ class CommentWrittenListener
         list($exact, $current, $before, $after, $remainToNext)  = $event->user->commentAchivements();
         
         if($exact){
-            $name = Achbad::stringify($exact, 'Comment', 'Comments','Written');
+            $helperText = config('iphoneschool.stringify.comments');
+            $name = Achbad::stringify($exact, $helperText['singular'], $helperText['plural'],$helperText['action']);
             AchivementUnlocked::dispatch($name, $event->user);            
         }
 
